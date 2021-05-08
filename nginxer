@@ -1,0 +1,43 @@
+#/bin/bash
+
+usage(){
+	echo "Usage: nginxer [OPTION]"
+	echo "Try 'nginxer -h for more information.'"
+}
+
+help(){
+	echo "echo Usage: nginxer [OPTION]"
+	echo "Simple tool to automate nginx user creation for HTTP Basic Authentication."
+       	echo "Example: nginxer -u se -p oye -f meoye"
+	echo ""
+	echo "OPTIONS"
+	echo "  -u USERNAME      Username for the new user."
+	echo "  -p PASSWORD      Password for the new user."
+	echo "  -f FILE          File where to write the new user:passwd."
+	echo "                    Note that if file does not exist, it will"
+	echo "                    create it."
+	echo "  -h               Prints this help menu."
+}
+
+while getopts :u:p:f:h-help flag
+do
+	case "${flag}" in
+		u) username=${OPTARG};;
+		p) password=${OPTARG};;
+		f) wfile=${OPTARG};;
+		h) help; exit 0;;
+		*) usage; exit 0;;
+	esac
+done
+if test -z "$username"; then
+	read -p "Write an username: " username
+fi
+if test -z "$password"; then
+	read -p "Write a password: " password
+fi
+if test -z "$wfile"; then
+	read -p "Specify a file [/etc/nginx/conf.d/passwd]: " wfile
+	wfile=${wfile:-/etc/conf.d/passwd}
+fi
+password=$(openssl passwd -apr1 $password)
+echo "$username:$password" >> "$wfile"
