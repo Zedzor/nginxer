@@ -6,7 +6,7 @@ usage(){
 }
 
 help(){
-	echo "echo Usage: nginxer [OPTION]"
+	echo "Usage: nginxer [OPTION]"
 	echo "Simple tool to automate nginx user creation for HTTP Basic Authentication."
        	echo "Example: nginxer -u se -p oye -f meoye"
 	echo ""
