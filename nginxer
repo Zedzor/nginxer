@@ -37,7 +37,7 @@ if test -z "$password"; then
 fi
 if test -z "$wfile"; then
 	read -p "Specify a file [/etc/nginx/conf.d/passwd]: " wfile
-	wfile=${wfile:-/etc/conf.d/passwd}
+	wfile=${wfile:-/etc/nginx/conf.d/passwd}
 fi
 password=$(openssl passwd -apr1 $password)
 echo "$username:$password" >> "$wfile"
